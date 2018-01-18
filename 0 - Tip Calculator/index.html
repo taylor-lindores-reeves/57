@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>WierdJS</title>
+</head>
+
+<h1>JavaScript Tip Calculator</h1>
+
+<form action="/" method="post"></form>
+
+Bill Amount: <input type="number" name="bill" id="bill">
+<br>
+Tip Amount: <input type="range" name="tipAmount" id="tipAmount" onchange="tipCalculator(this.value, 'bill')" min="0" max="100" value="50">
+<br>
+
+<div id="display"></div>
+
+<body>
+    
+</body>
+<script src="tipCalculator.js"></script>
+</html>
