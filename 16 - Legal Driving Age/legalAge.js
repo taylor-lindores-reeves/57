@@ -18,9 +18,10 @@ var ages = {
 age.addEventListener("input", function() {
     display.innerHTML = ``;
     for (i in ages) {
-        if (age.value == ages[i]) {
+        if (age.value >= ages[i]) {
             display.innerHTML += `<li>${i}</li>`
+        } else if (age.value < 14) {
+            display.innerHTML = `<li>You're not old enough to drive</li>`
         }
     }
 })
-
