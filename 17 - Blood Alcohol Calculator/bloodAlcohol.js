@@ -1,64 +1,79 @@
-var slider = document.getElementById("slider")
-var metric = document.getElementById("metric")
-var imperial = document.getElementById("imperial")
-var weight = document.getElementById("weight")
-var weightmeasurement = document.getElementById("weightmeasurement")
-var volumemeasurement = document.getElementById("volumemeasurement")
-var gender = document.getElementById("gender")
-var drinks = document.getElementById("drinks")
-var percentage = document.getElementById("percentage")
-var volume = document.getElementById("alcoholperdrink")
-var time = document.getElementById("time")
-var display = document.getElementById("result")
+var volume = document.getElementById('volume');
+var content = document.getElementById('content');
+var submit = document.getElementById('btn');
+var ondelete = document.getElementById('delete');
+var vol = document.getElementById('vol');
+var per = document.getElementById('per');
 
-slider.addEventListener("change", () => {
-    if (slider.value == 0) {
-        imperial.style.color = "black";
-        metric.style.color = "red";
-        weightmeasurement.innerHTML = `kg`;
-        volumemeasurement.innerHTML = `g`;
-        const doMetric = 0;
-        CalculateAlcohol(doMetric);
-    } else if (slider.value == 1) {
-        metric.style.color = "black";
-        imperial.style.color = "red";
-        weightmeasurement.innerHTML = `lbs`;
-        volumemeasurement.innerHTML = `oz`;
-        const doImperial = 1;
-        CalculateAlcohol(doImperial);
+submit.addEventListener('click', function() {
+    if(typeof(Storage) !== "undefined") {
+        if (localStorage.clickcount) {
+            localStorage.clickcount = Number(localStorage.clickcount)+1;
+        } else {
+            localStorage.clickcount = 1;
+        }
+    }
+    if (volume.value && content.value) {
+        localStorage.setItem(`drink-${localStorage.clickcount}`, volume.value);
+        localStorage.setItem(`percentage-${localStorage.clickcount}`, content.value);
     }
 })
 
+for (var k in localStorage){
+    if (typeof localStorage[k] !== 'function') {
+        if (k === 'clickcount' || k === 'length') {
+        } else if (k.substr(0, 5) === 'drink') {
+            vol.innerHTML += `<li>${k}: ${localStorage[k]}ml`;
+        } else if (k.substr(0, 10) === 'percentage') {
+            per.innerHTML += `<li>drink${k.substr(10, 12)}: ${localStorage[k]}%`;
+        }
+    }
+}
+
+ondelete.addEventListener('click', function() {
+    localStorage.clear();
+})
+
+var volumeValues = [];
+var percentValues = [];
+
+document.querySelectorAll('#vol li').forEach(i => {
+    var volumes = i.innerText;
+    var reduced = volumes.substr(volumes.length - 5, volumes.length);
+    volumeValues.push(parseInt(reduced));
+})
+
+document.querySelectorAll('#per li').forEach(i => {
+    var percentages = i.innerText;
+    var reduced = percentages.substr(percentages.length - 3, percentages.length);
+    percentValues.push(parseInt(reduced));
+})
+
 var CalculateAlcohol = function(measurement) {
-    if (measurement == 0) {
-        weight.addEventListener('input', calculateMetric);
-        drinks.addEventListener('input', calculateMetric);
-        percentage.addEventListener('input', calculateMetric);
-        volume.addEventListener('input', calculateMetric);
-        time.addEventListener('input', calculateMetric);
-        gender.addEventListener('change', calculateMetric);
-    }
-    
-    if (measurement == 1) {
-        weight.addEventListener('input', calculateImperial);
-        drinks.addEventListener('input', calculateImperial);
-        percentage.addEventListener('input', calculateImperial);
-        volume.addEventListener('input', calculateImperial);
-        time.addEventListener('input', calculateImperial);
-        gender.addEventListener('change', calculateImperial);
+    var weight = document.getElementById("weight");
+    var drinks = Number(document.querySelectorAll('#vol li').length);
+    var percentages = percentValues.reduce(function(a, b) {return a + b});
+    percentages = Math.round(percentages / percentValues.length);
+    var volumes = volumeValues.reduce(function(a, b) {return a + b});
+    var time = document.getElementById("time");
+    var gender = document.getElementById("gender");
+
+    weight.addEventListener('input', calculateMetric);
+    time.addEventListener('input', calculateMetric);
+    gender.addEventListener('change', calculateMetric);
+
+    function calculateMetric() {
+        var result = document.getElementById('result');
+        var mls = volumes * 0.035195;
+        var kgs = weight.value * 2.20462;
+        var A = mls * percentages;
+
+        A = A /= 100;
+        console.log(gender.value)
+
+        const BAC = (A * 5.14)/(kgs * (gender.value == "male" ? 0.73 : 0.66)) - (.015 * time.value);
+        result.innerHTML = `Blood Alcohol Content (BAC) = ${BAC.toFixed(3)}`;
     }
 }
 
-function calculateMetric() {
-    var A  = ((drinks.value * (volume.value * 0.03527396)) * percentage.value);
-    A = A /= 100
-    const BAC = (A * 5.14) / ((weight.value * 2.2046226218) * (gender.value == "male" ? 0.73 : 0.66)) - (.015 * time.value);
-    display.innerHTML = `${BAC.toFixed(3)}`
-}
-
-function calculateImperial() {
-    var A  = ((drinks.value * volume.value) * percentage.value);
-    A = A /= 100
-    const BAC = (A * 5.14) / (weight.value * (gender.value == "male" ? 0.73 : 0.66)) - (.015 * time.value);
-    display.innerHTML = `${BAC.toFixed(3)}`
-}
+new CalculateAlcohol();
