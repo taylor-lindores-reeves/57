@@ -6,15 +6,15 @@ const taxRate = document.getElementById('taxRate');
 const result = document.getElementById('result');
 
 var arr = [
-    {state: 'Wisconsin', counties: [{county: 'Eau Claire', tax: 0.005}, {county: 'Dunn', tax: 0.004}]},
-    {state: 'California', counties: [{county: 'Alamedam', tax: 9.75}, {county: 'Kern', tax: 8.25}, {county: 'Los Angelas', tax: 10.25}]},
-    {state: 'Illinois', tax: 4.95},
-    {state: 'Indiana', tax: 3.3},
-    {state: 'Massachusetts', tax: 5.1},
-    {state: 'Michigan', tax: 4.25},
-    {state: 'North Carolina', tax: 5.75},
-    {state: 'Pennsylvania', tax: 3.07},
-    {state: 'Utah', tax: 5}
+    {state: 'WI - Wisconsin', counties: [{county: 'Eau Claire', tax: 0.005}, {county: 'Dunn', tax: 0.004}]},
+    {state: 'CA - California', counties: [{county: 'Alamedam', tax: 9.75}, {county: 'Kern', tax: 8.25}, {county: 'Los Angelas', tax: 10.25}]},
+    {state: 'IL - Illinois', tax: 4.95},
+    {state: 'IN - Indiana', tax: 3.3},
+    {state: 'MA - Massachusetts', tax: 5.1},
+    {state: 'MI - Michigan', tax: 4.25},
+    {state: 'NC - North Carolina', tax: 5.75},
+    {state: 'PA - Pennsylvania', tax: 3.07},
+    {state: 'UT - Utah', tax: 5}
 ]
 
 function findMatches(wordToMatch) {
