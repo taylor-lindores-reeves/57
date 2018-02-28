@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>BMI Calculator</title>
+</head>
+
+<body>
+    <select name="units" id="units">
+        <option value="metric">Metric</option>
+        <option value="imperial">Imperial</option>
+    </select>
+    <br>
+    <label for="weight">weight</label>
+    <div>
+        <input style="background: #333; color: white;" type="number" id="weight">
+        <span id="weightUnit"> kgs</span>
+    </div>
+    <br>
+    <label for="height">height</label>
+    <div id="hide">
+        <input style="background: #333; color: white;" type="number" id="height">
+        <span id="heightUnit"> meters</span>
+    </div>
+
+    <div id="imperial" style="display: none;">
+        <input style="background: #333; color: white;" type="number" id="feet">
+        <span id="ft"> ft</span>
+        <br>
+        <input style="background: #333; color: white;" type="number" id="inches">
+        <span id="in"> inches</span>
+    </div>
+
+    <input type="range" class="slider" id="slider" min="1" max="100" value="50" style="background: #333;">
+    <div id="display" width="200" height="100"></div>
+
+    <br>
+    <div id="verdict"></div>
+
+    <style>
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 15px;
+            border-radius: 5px;
+            background: #d3d3d3;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #4CAF50;
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #4CAF50;
+            cursor: pointer;
+        }
+    </style>
+</body>
+<script src="bmiCalculator.js"></script>
+
+</html>
